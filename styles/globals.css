@@ -27,3 +27,7 @@
     @apply absolute top-0 bottom-0  z-40 m-auto h-9 opacity-0 w-9 cursor-pointer  transition hover:scale-125 group-hover:opacity-100
   }
 }
+
+.input {
+  @apply w-full rounded bg-[#333333] px-5 py-3.5 placeholder-[gray] outline-none focus:bg-[#454545];
+}
