@@ -1,6 +1,30 @@
+import { signInAnonymously, signInWithPopup } from "firebase/auth";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface Inputs {
+  email: string;
+  password: string;
+}
+
 function Login() {
+  const [login, setLogin] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async({email,password}) => {
+    if(login){
+      // await SignIn(email, password)
+    } else{
+      // await signUp(email, password)
+    }
+  }
+
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
       <Head>
@@ -21,22 +45,41 @@ function Login() {
       />
 
       <form
+        onSubmit={handleSubmit(onSubmit)}
         className="relative mt-24 space-y-8 bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         action=""
       >
-        <h1>Sign In</h1>
+        <h1 className="text-4xl font-semibold">Sign In</h1>
         <div className="space-y-4">
-          <label>
-            <input type="email" placeholder="Email" className="input" />
+          <label className="inline-block w-full ">
+            {/* From the interface */}
+            <input type="email" placeholder="Email" className="input"
+            {...register('email',{required: true})} />
+             {errors.email && (<p className="p-1 text-[13px] font-light text-orange-500">Please enter a valid email</p>)}
           </label>
-          <label>
-            <input type="password" placeholder="Password"className="input" />
+          <label className="inline-block w-full ">
+            <input type="password" placeholder="Password" className="input" 
+            {...register('password', {required: true})}/>
+            {errors.password && (<p className="p-1 text-[13px] font-light text-orange-500">Your password must contain between 4 and 60 characters</p>)}
           </label>
         </div>
-        <button className="w-full rounded bg-[#e50914] py-3 font-semibold">Sign In</button>
+        <button className="w-full rounded bg-[#e50914] py-3 font-semibold" onClick={()=> setLogin(true)}>
+          Sign In
+        </button>
+        <div className="text-[gray]">
+          New to Netflix?{" "}
+          <button type="submit" className="text-white hover:underline"onClick={()=> setLogin(false)}>
+            Sign up Now
+          </button>
+        </div>
       </form>
     </div>
   );
 }
 export default Login;
-// 19.15
+//** Using react hook form lib. Set interface, add onSubmit in form and input label.  */
+// Spread operator ...register only submit form if it's properties true
+// Adding asynch function when user log into acc onSubmit
+// SubmitHandler destructuring data to email and password {}
+// Custom hook using signIn and signUp
+
