@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "../components/Header";
 import Row from "../components/Row";
+import useAuth from "../hooks/useAuth";
 import { Movie } from "../typing";
 import requests from "../utils/request";
 import Banner from "./Banner";
@@ -16,7 +17,7 @@ interface Props {
   romanceMovies: Movie[];
   documentaries: Movie[];
 }
-
+// Homepage
 const Home = ({
   netflixOriginals,
   actionMovies,
@@ -27,7 +28,11 @@ const Home = ({
   topRated,
   trendingNow,
 }: Props) => {
-  console.log(netflixOriginals);
+  // In case users have bad connection, we would like to i
+  const { logout,loading } = useAuth()
+  if(loading) return null
+  
+  
   return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>

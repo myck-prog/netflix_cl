@@ -39,7 +39,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const [initialLoading, setInitialLoading]=useState(true)
   const router = useRouter();
 
-
+  // Persisting the changes of the users
   useEffect(
     () =>
       onAuthStateChanged(auth, (user) => {
@@ -48,7 +48,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
           setUser(user)
           setLoading(false)
         } else {
-          // Not logged in...
+          // If there is no users, push back to login
           setUser(null)
           setLoading(true)
           router.push('/login')
