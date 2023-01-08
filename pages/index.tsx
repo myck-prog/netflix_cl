@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRecoilValue } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 import Header from "../components/Header";
+import Modal from "../components/Modal";
 import Row from "../components/Row";
 import useAuth from "../hooks/useAuth";
 import { Movie } from "../typing";
@@ -30,9 +33,10 @@ const Home = ({
 }: Props) => {
   // In case users have bad connection, we would like to i
   const { logout,loading } = useAuth()
+  const showModal = useRecoilValue(modalState)
   if(loading) return null
   
-  
+
   return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
@@ -56,7 +60,8 @@ const Home = ({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
-      {/* Modal */}
+
+      {showModal && <Modal />}
     </div>
   );
 };
